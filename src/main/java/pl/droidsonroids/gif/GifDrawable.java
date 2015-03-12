@@ -679,7 +679,13 @@ public class GifDrawable extends Drawable implements Animatable, MediaPlayerCont
             clearColorFilter = false;
         }
         if (mPaint.getShader() == null) {
-            canvas.drawBitmap(mBuffer, mSrcRect, mDstRect, mPaint);
+            try {
+                if (!mBuffer.isRecycled()) {
+                    canvas.drawBitmap(mBuffer, mSrcRect, mDstRect, mPaint);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             canvas.drawRect(mDstRect, mPaint);
         }
